@@ -1,6 +1,7 @@
 import sys
 import os
 from getpass import getpass
+import argparse
 import yaml
 from bs4 import BeautifulSoup
 import requests
@@ -49,22 +50,26 @@ class PaperCut:
             sys.exit(1)
         return driver
 
-    def print_action(self, print_object):
+    def print_action(self, print_objects):
         driver = self.__login()
-        driver.get(self.url+'/app?service=action/1/UserWebPrint/0/$ActionLink')
-        driver.find_element_by_xpath('//*[@id="main"]/div[2]/form/div[2]/input[1]').click()
-        file_input = driver.find_element_by_xpath('/html/body/input')
-        try:
-            file_input.send_keys(print_object)
-        except:
-            print('No such file')
-            driver.quit()
-            sys.exit(1)
-        driver.find_element_by_xpath('//*[@id="upload"]').click()
-        WebDriverWait(driver, 3).until(EC.presence_of_element_located((By.XPATH, '//div[@class="infoMessage"]')))
+        for print_object in print_objects:
+            driver.get(self.url+'/app?service=action/1/UserWebPrint/0/$ActionLink')
+            driver.find_element_by_xpath('//*[@id="main"]/div[2]/form/div[2]/input[1]').click()
+            file_input = driver.find_element_by_xpath('/html/body/input')
+            try:
+                file_input.send_keys(print_object)
+            except:
+                print('No such file')
+                driver.quit()
+                sys.exit(1)
+            driver.find_element_by_xpath('//*[@id="upload"]').click()
+            WebDriverWait(driver, 3).until(EC.presence_of_element_located((By.XPATH, '//div[@class="infoMessage"]')))
         driver.quit()
 
 if __name__ == '__main__':
-    file_name = os.path.abspath(sys.argv[1])
+    parser = argparse.ArgumentParser()
+    parser.add_argument('file_name', nargs='+', help='印刷したいファイル')
+    args = parser.parse_args()
+    file_names = map(os.path.abspath, args.file_names)
     paper_cut = PaperCut()
-    paper_cut.print_action(file_name)
+    paper_cut.print_action(file_names)
