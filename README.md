@@ -12,7 +12,7 @@ $ pip install -r requirements.txt
 ## Usage
 
 ```sh
-python main.py file_name
+python main.py file_name [file_name ...]
 ```
 
 ### Option
