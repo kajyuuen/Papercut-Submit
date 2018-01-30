@@ -69,7 +69,7 @@ class PaperCut:
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('file_name', nargs='+', help='印刷したいファイル')
+    parser.add_argument('file_names', nargs='+', help='印刷したいファイル')
     args = parser.parse_args()
     file_names = map(os.path.abspath, args.file_names)
     paper_cut = PaperCut()
