@@ -2,13 +2,13 @@ import sys
 import os
 from getpass import getpass
 import argparse
-import yaml
 from bs4 import BeautifulSoup
 import requests
 from selenium.webdriver import Chrome
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+
 
 class PaperCut:
 
@@ -65,6 +65,7 @@ class PaperCut:
             driver.find_element_by_xpath('//*[@id="upload"]').click()
             WebDriverWait(driver, 3).until(EC.presence_of_element_located((By.XPATH, '//div[@class="infoMessage"]')))
         driver.quit()
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
