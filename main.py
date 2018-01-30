@@ -1,14 +1,15 @@
+#!/usr/bin/env python
 import sys
 import os
 from getpass import getpass
 import argparse
-import yaml
 from bs4 import BeautifulSoup
 import requests
 from selenium.webdriver import Chrome
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+
 
 class PaperCut:
 
@@ -66,9 +67,10 @@ class PaperCut:
             WebDriverWait(driver, 3).until(EC.presence_of_element_located((By.XPATH, '//div[@class="infoMessage"]')))
         driver.quit()
 
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('file_name', nargs='+', help='印刷したいファイル')
+    parser.add_argument('file_names', nargs='+', help='印刷したいファイル')
     args = parser.parse_args()
     file_names = map(os.path.abspath, args.file_names)
     paper_cut = PaperCut()
